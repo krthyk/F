@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>dontclickonthis.link</title>
+  <meta name="description" content="You were warned. Yet here you are." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500&family=Google+Sans+Text:wght@300;400&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #ffffff;
+      --surface:  #f8f9fa;
+      --border:   #e8eaed;
+      --text:     #202124;
+      --muted:    #5f6368;
+      --accent:   #1a73e8;
+      --accent-s: #e8f0fe;
+      --red:      #d93025;
+      --sans:     'Google Sans', 'Product Sans', sans-serif;
+      --body:     'Google Sans Text', 'Google Sans', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--body);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── SCREENS ── */
+    .screen {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem 1.5rem;
+      position: relative;
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .screen.visible { opacity: 1; transform: translateY(0); }
+    .screen.hidden  { display: none; }
+
+    /* ══════════════════════════
+       SCREEN 1 — GATE
+    ══════════════════════════ */
+    #screen-gate {
+      text-align: center;
+      max-width: 500px;
+      margin: auto;
+    }
+
+    .site-label {
+      font-family: var(--sans);
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 2.75rem;
+    }
+
+    .gate-lines {
+      list-style: none;
+      margin-bottom: 2.75rem;
+    }
+    .gate-lines li {
+      font-family: var(--sans);
+      font-size: clamp(1rem, 2.8vw, 1.25rem);
+      font-weight: 400;
+      line-height: 1.7;
+      color: var(--text);
+      padding: 0.2rem 0;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 0.42s ease, transform 0.42s ease;
+    }
+    .gate-lines li.show { opacity: 1; transform: translateY(0); }
+    .gate-lines li strong { font-weight: 500; }
+
+    .btn-row {
+      display: flex;
+      gap: 0.75rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+    .btn-row.show { opacity: 1; }
+
+    .btn {
+      font-family: var(--sans);
+      font-size: 0.9rem;
+      font-weight: 500;
+      padding: 0.6rem 1.75rem;
+      border-radius: 100px;
+      cursor: pointer;
+      transition: background 0.16s, box-shadow 0.16s, transform 0.1s;
+      border: 1.5px solid transparent;
+    }
+    .btn:active { transform: scale(0.97); }
+
+    .btn-yes {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+    .btn-yes:hover {
+      background: #1557b0;
+      box-shadow: 0 2px 12px rgba(26,115,232,0.3);
+    }
+    .btn-no {
+      background: transparent;
+      color: var(--muted);
+      border-color: var(--border);
+    }
+    .btn-no:hover { border-color: #bbb; color: var(--text); }
+
+    #no-msg {
+      margin-top: 1.2rem;
+      font-size: 0.88rem;
+      color: var(--muted);
+      font-style: italic;
+      opacity: 0;
+      min-height: 1.4rem;
+      transition: opacity 0.32s;
+    }
+    #no-msg.show { opacity: 1; }
+
+    /* ══════════════════════════
+       SCREEN 2 — RICKROLL
+    ══════════════════════════ */
+    #screen-roll {
+      gap: 1.4rem;
+      max-width: 660px;
+      width: 100%;
+      margin: auto;
+    }
+
+    .roll-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      background: #fce8e6;
+      color: var(--red);
+      font-family: var(--sans);
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.28rem 0.85rem;
+      border-radius: 100px;
+    }
+
+    .video-wrap {
+      width: 100%;
+      aspect-ratio: 16/9;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: #000;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+    }
+    .video-wrap iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+    }
+
+    .roll-caption { text-align: center; }
+    .roll-caption h2 {
+      font-family: var(--sans);
+      font-size: clamp(1.2rem, 3.2vw, 1.65rem);
+      font-weight: 500;
+    }
+    .roll-caption .sub {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-top: 0.25rem;
+    }
+    .roll-caption .never {
+      font-size: 0.88rem;
+      color: var(--accent);
+      margin-top: 0.35rem;
+      font-style: italic;
+    }
+
+    /* ── REACTIONS ── */
+    .reaction-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.2rem 1.4rem;
+      text-align: center;
+      width: 100%;
+    }
+    .reaction-label {
+      font-family: var(--sans);
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1rem;
+    }
+    .emoji-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      justify-content: center;
+    }
+    .emoji-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.18rem;
+      background: var(--bg);
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      padding: 0.45rem 0.55rem;
+      cursor: pointer;
+      min-width: 52px;
+      transition: border-color 0.14s, background 0.14s, transform 0.1s, box-shadow 0.14s;
+    }
+    .emoji-btn:hover {
+      border-color: #bbb;
+      transform: translateY(-2px);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    }
+    .emoji-btn.picked {
+      border-color: var(--accent);
+      background: var(--accent-s);
+    }
+    .emoji-glyph { font-size: 1.45rem; line-height: 1; }
+    .emoji-count {
+      font-family: var(--sans);
+      font-size: 0.62rem;
+      font-weight: 500;
+      color: var(--muted);
+      line-height: 1;
+    }
+    .emoji-btn.picked .emoji-count { color: var(--accent); }
+
+    /* ── SCROLL DOWN BUTTON ── */
+    .scroll-down-btn {
+      font-family: var(--sans);
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--accent);
+      border: 1.5px solid var(--accent);
+      border-radius: 100px;
+      padding: 0.58rem 1.5rem;
+      background: transparent;
+      cursor: pointer;
+      transition: background 0.16s, color 0.16s;
+      animation: softpulse 2.2s ease-in-out infinite;
+    }
+    .scroll-down-btn:hover {
+      background: var(--accent);
+      color: #fff;
+      animation: none;
+    }
+    @keyframes softpulse {
+      0%,100% { opacity: 0.5; }
+      50%      { opacity: 1; }
+    }
+
+    /* ══════════════════════════
+       SCREEN 3 — MESSAGE
+    ══════════════════════════ */
+    #screen-msg {
+      max-width: 580px;
+      margin: auto;
+      gap: 2.25rem;
+      padding-top: 4rem;
+      padding-bottom: 5rem;
+    }
+    #screen-msg.msg-hidden {
+      opacity: 0 !important;
+      pointer-events: none;
+      transform: translateY(18px);
+    }
+
+    .divider {
+      width: 100%;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* message text */
+    .msg-block { width: 100%; }
+    .msg-block h3 {
+      font-family: var(--sans);
+      font-size: clamp(1.15rem, 2.8vw, 1.5rem);
+      font-weight: 500;
+      line-height: 1.4;
+      margin-bottom: 1rem;
+    }
+    .msg-block p {
+      font-size: 0.95rem;
+      line-height: 1.8;
+      color: #3c4043;
+    }
+    .msg-block p + p { margin-top: 0.7rem; }
+
+    blockquote {
+      border-left: 3px solid var(--accent);
+      padding: 0.55rem 1rem;
+      margin: 1.2rem 0;
+      font-size: 0.95rem;
+      font-style: italic;
+      color: #3c4043;
+      background: var(--accent-s);
+      border-radius: 0 8px 8px 0;
+    }
+
+    /* section heading */
+    .section-head {
+      font-family: var(--sans);
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.9rem;
+    }
+
+    /* links */
+    .links-section { width: 100%; }
+    .link-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(185px, 1fr));
+      gap: 0.55rem;
+    }
+    .link-item {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.7rem 0.9rem;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      text-decoration: none;
+      color: var(--text);
+      font-size: 0.84rem;
+      font-weight: 500;
+      background: var(--bg);
+      transition: border-color 0.14s, background 0.14s, box-shadow 0.14s;
+    }
+    .link-item:hover {
+      border-color: var(--accent);
+      background: var(--accent-s);
+      box-shadow: 0 1px 6px rgba(26,115,232,0.1);
+    }
+    .link-icon { font-size: 1.05rem; flex-shrink: 0; }
+    .link-meta { display: flex; flex-direction: column; gap: 0.08rem; }
+    .link-sub {
+      font-size: 0.68rem;
+      color: var(--muted);
+      font-weight: 400;
+    }
+
+    /* quotes */
+    .quotes-section { width: 100%; }
+    .quote-card {
+      padding: 0.85rem 1rem;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      margin-bottom: 0.55rem;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .quote-card:hover { border-color: #ccc; background: var(--surface); }
+    .quote-card p {
+      font-style: italic;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      color: #3c4043;
+    }
+    .quote-attr {
+      display: block;
+      margin-top: 0.4rem;
+      font-size: 0.7rem;
+      color: var(--muted);
+    }
+
+    /* goodbye */
+    .goodbye-block { text-align: center; }
+    .goodbye-block h2 {
+      font-family: var(--sans);
+      font-size: clamp(1.4rem, 3.5vw, 1.9rem);
+      font-weight: 500;
+    }
+    .goodbye-block p {
+      font-size: 0.88rem;
+      color: var(--muted);
+      margin-top: 0.4rem;
+    }
+
+    /* footer */
+    footer {
+      text-align: center;
+      padding: 1.75rem 1rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.73rem;
+      color: var(--muted);
+    }
+    footer a { color: var(--accent); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+    .heart { color: var(--red); }
+
+    @media (max-width: 480px) {
+      .link-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════
+     SCREEN 1 — GATE
+═══════════════════════════ -->
+<section id="screen-gate" class="screen">
+  <p class="site-label">dontclickonthis.link</p>
+
+  <ul class="gate-lines">
+    <li>Why did you click this link despite being told <strong>not to?</strong> 🤨</li>
+    <li>Why do hoomans always do what they're told <strong>not to!?</strong> 😑</li>
+    <li>Well... here you are anyway.</li>
+    <li>Do you wanna enter <strong>the forbidden site?</strong> 😏</li>
+  </ul>
+
+  <div class="btn-row" id="btn-row">
+    <button class="btn btn-yes" onclick="enterSite()">YES 🙋🏻</button>
+    <button class="btn btn-no"  onclick="sayNo()">NO 🙅🏻</button>
+  </div>
+
+  <p id="no-msg"></p>
+</section>
+
+
+<!-- ═══════════════════════════
+     SCREEN 2 — RICKROLL
+═══════════════════════════ -->
+<section id="screen-roll" class="screen hidden">
+
+  <span class="roll-chip">⚠ forbidden content unlocked</span>
+
+  <div class="video-wrap">
+    <iframe id="yt-frame" src="" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+  </div>
+
+  <div class="roll-caption">
+    <h2>You got Rick Rolled in big 2026 🥀</h2>
+    <p class="sub">This meme is so immortal dawg ☠️</p>
+    <p class="never">🎵 Never gonna give you up... 🎵</p>
+  </div>
+
+  <div class="reaction-box">
+    <p class="reaction-label">How's it feel? Pick one</p>
+    <div class="emoji-grid" id="emoji-grid"></div>
+  </div>
+
+  <button class="scroll-down-btn" onclick="goToMessage()">↓ scroll down ↓</button>
+
+</section>
+
+
+<!-- ═══════════════════════════
+     SCREEN 3 — MESSAGE
+═══════════════════════════ -->
+<section id="screen-msg" class="screen msg-hidden">
+
+  <div class="msg-block">
+    <h3>Now that you're here... we've got something to tell you.</h3>
+    <p>You're doing great. Take care of yourself and your loved ones 🤗</p>
+    <p>
+      Few things change no matter how much time passes... this meme is one of them.
+      Family, friends, memories, regrets... and sometimes we ourselves become one of those things.
+      We miss that other version of us that used to exist.
+    </p>
+    <p>
+      It's good to visit that innocent kid version of yourself sometimes,
+      to realise you're doing much better than what their tiny brain expected back then.
+      (Mine just wanted to learn HTML so I could hack NASA 😭)
+    </p>
+
+    <blockquote>"Humour is also a way of saying something serious."</blockquote>
+
+    <p>And seriously... sorry for rick rolling you, dawg 🤧</p>
+    <p>
+      If possible, connect with others. Be friendly. Stay positive. Contribute to good things.
+      Because it is <strong>never too late</strong> to be kind, polite, and a loving human being.
+    </p>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="links-section">
+    <p class="section-head">Do something good today</p>
+    <div class="link-grid">
+      <a class="link-item" href="https://www.givewell.org" target="_blank" rel="noopener">
+        <span class="link-icon">🌍</span>
+        <span class="link-meta">GiveWell<span class="link-sub">Effective giving research</span></span>
+      </a>
+      <a class="link-item" href="https://www.kiva.org" target="_blank" rel="noopener">
+        <span class="link-icon">🤝</span>
+        <span class="link-meta">Kiva<span class="link-sub">Microloans for real people</span></span>
+      </a>
+      <a class="link-item" href="https://opencollective.com" target="_blank" rel="noopener">
+        <span class="link-icon">💛</span>
+        <span class="link-meta">Open Collective<span class="link-sub">Support open source humans</span></span>
+      </a>
+      <a class="link-item" href="https://www.charitywater.org" target="_blank" rel="noopener">
+        <span class="link-icon">💧</span>
+        <span class="link-meta">Charity: Water<span class="link-sub">Clean water for all</span></span>
+      </a>
+      <a class="link-item" href="https://www.volunteermatch.org" target="_blank" rel="noopener">
+        <span class="link-icon">🙌</span>
+        <span class="link-meta">VolunteerMatch<span class="link-sub">Find local good deeds</span></span>
+      </a>
+      <a class="link-item" href="https://randomactsofkindness.org" target="_blank" rel="noopener">
+        <span class="link-icon">🌱</span>
+        <span class="link-meta">Random Acts of Kindness<span class="link-sub">Tiny ideas, big ripples</span></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="quotes-section">
+    <p class="section-head">A lil boost for the road</p>
+
+    <div class="quote-card">
+      <p>"You don't have to be great to start, but you have to start to be great."</p>
+      <span class="quote-attr">Zig Ziglar</span>
+    </div>
+    <div class="quote-card">
+      <p>"In the middle of difficulty lies opportunity."</p>
+      <span class="quote-attr">Albert Einstein</span>
+    </div>
+    <div class="quote-card">
+      <p>"The only person you are destined to become is the person you decide to be."</p>
+      <span class="quote-attr">Ralph Waldo Emerson</span>
+    </div>
+    <div class="quote-card">
+      <p>"Rest if you must, but don't you quit."</p>
+      <span class="quote-attr">John Greenleaf Whittier</span>
+    </div>
+    <div class="quote-card">
+      <p>"It is never too late to be kind, polite, and a loving human being."</p>
+      <span class="quote-attr">someone on the internet... but it still counts</span>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="goodbye-block">
+    <h2>BYE 🙋🏻</h2>
+    <p>(But not goodbye... because we'll meet again somehow 😝)</p>
+  </div>
+
+</section>
+
+<footer id="site-footer" style="display:none;">
+  Made with <span class="heart">♥</span> from
+  <a href="#" target="_blank" rel="noopener">randomsite.com</a>
+  &nbsp;·&nbsp; shipping freeware &amp; open source things
+</footer>
+
+
+<script>
+  const emojiList = ['💀','😭','😂','🫡','😤','❤️','🤯','😐','🕺🏻','💃🏻','😒','💢'];
+  const counts = {};
+  emojiList.forEach(e => counts[e] = 0);
+
+  let pickedEmoji = null;
+  let noCount  = 0;
+  let entered  = false;
+  let msgShown = false;
+
+  /* INIT */
+  window.addEventListener('DOMContentLoaded', () => {
+    const gate = document.getElementById('screen-gate');
+    gate.classList.add('visible');
+
+    const lines = gate.querySelectorAll('.gate-lines li');
+    lines.forEach((li, i) => {
+      setTimeout(() => li.classList.add('show'), 300 + i * 430);
+    });
+    setTimeout(() => {
+      document.getElementById('btn-row').classList.add('show');
+    }, 300 + lines.length * 430 + 100);
+
+    buildEmojiGrid();
+  });
+
+  /* EMOJI GRID */
+  function buildEmojiGrid() {
+    const grid = document.getElementById('emoji-grid');
+    emojiList.forEach(emoji => {
+      const btn = document.createElement('button');
+      btn.className = 'emoji-btn';
+      btn.dataset.emoji = emoji;
+      btn.innerHTML = `<span class="emoji-glyph">${emoji}</span><span class="emoji-count" id="cnt-${encodeURIComponent(emoji)}">0</span>`;
+      btn.addEventListener('click', () => pickReaction(emoji, btn));
+      grid.appendChild(btn);
+    });
+  }
+
+  function pickReaction(emoji, btn) {
+    const wasPicked = btn.classList.contains('picked');
+
+    if (pickedEmoji && pickedEmoji !== emoji) {
+      counts[pickedEmoji] = Math.max(0, counts[pickedEmoji] - 1);
+      refreshCount(pickedEmoji);
+    }
+
+    document.querySelectorAll('.emoji-btn').forEach(b => b.classList.remove('picked'));
+
+    if (!wasPicked) {
+      btn.classList.add('picked');
+      counts[emoji]++;
+      refreshCount(emoji);
+      pickedEmoji = emoji;
+    } else {
+      counts[emoji] = Math.max(0, counts[emoji] - 1);
+      refreshCount(emoji);
+      pickedEmoji = null;
+    }
+  }
+
+  function refreshCount(emoji) {
+    const el = document.getElementById('cnt-' + encodeURIComponent(emoji));
+    if (el) el.textContent = counts[emoji];
+  }
+
+  /* NO BUTTON */
+  const noLines = [
+    "Sure... and yet you're still here 👀",
+    "Uh huh. Any second now. 👁️👁️",
+    "The exit is wherever you scroll away 🚪",
+    "Okay... you're basically in at this point 😌"
+  ];
+
+  function sayNo() {
+    const el = document.getElementById('no-msg');
+    el.textContent = noLines[Math.min(noCount, noLines.length - 1)];
+    el.classList.add('show');
+    noCount++;
+  }
+
+  /* YES BUTTON */
+  function enterSite() {
+    if (entered) return;
+    entered = true;
+
+    const gate = document.getElementById('screen-gate');
+    gate.style.transition = 'opacity 0.42s';
+    gate.style.opacity = '0';
+
+    setTimeout(() => {
+      gate.classList.add('hidden');
+      const roll = document.getElementById('screen-roll');
+      roll.classList.remove('hidden');
+
+      document.getElementById('yt-frame').src =
+        'https://www.youtube.com/embed/DLzxrzFCyOs?autoplay=1&rel=0&modestbranding=1';
+
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        roll.classList.add('visible');
+      }));
+
+      setupScrollObserver();
+    }, 420);
+  }
+
+  /* SCROLL DOWN BUTTON */
+  function goToMessage() {
+    showMessage();
+    setTimeout(() => {
+      document.getElementById('screen-msg').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 80);
+  }
+
+  /* INTERSECTION OBSERVER */
+  function setupScrollObserver() {
+    const target = document.getElementById('screen-msg');
+    const obs = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting) { showMessage(); obs.disconnect(); }
+    }, { threshold: 0.05 });
+    obs.observe(target);
+  }
+
+  function showMessage() {
+    if (msgShown) return;
+    msgShown = true;
+    const msg    = document.getElementById('screen-msg');
+    const footer = document.getElementById('site-footer');
+    msg.classList.remove('msg-hidden');
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      msg.classList.add('visible');
+      footer.style.display = 'block';
+    }));
+  }
+</script>
+</body>
+</html>
